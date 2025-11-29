@@ -41,7 +41,7 @@ func getBirdsArray() []Bird {
 	return birds
 }
 
-func welcomePage(w http.ResponseWriter, r *http.Request) {
+func welcomePageHandler(w http.ResponseWriter, r *http.Request) {
 	pagePath := "pages_html/welcome.html"
 
 	tmpl, err := template.ParseFiles(pagePath)
