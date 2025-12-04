@@ -25,8 +25,11 @@
         .search-form {
             float: left;
         }
-        .search-form-button {
-            margin-left: 5px;
+        .search-form button {
+            margin-right: 5px;
+        }
+        a {
+            color: antiquewhite;
         }
     </style>
     <head>
@@ -39,10 +42,11 @@
                 <input type="text" placeholder="Search" name="search-query" />
                 <button>Submit</button>
             </form>
+            <a href="/">Go to homepage</a>
         </div>
         <br />
         <hr />
-        <h3>Here are some popular birds today:</h3>
+        <h3>Here's what i could find for {{.Query}}:</h3>
         {{range .Birds}}
         <div class="bird-info">
             <h4>{{.Name}}</h4>

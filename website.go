@@ -19,6 +19,12 @@ type WelcomePage struct {
 	Birds []Bird
 }
 
+type SearchResultsPage struct {
+	Title string
+	Query string
+	Birds []Bird
+}
+
 func getBird(birdPath string) (Bird, error) {
 	fileDescription, err := os.ReadFile(birdPath)
 	if err != nil {
@@ -41,14 +47,18 @@ func getBirdsArray() []Bird {
 	return birds
 }
 
-func welcomePageHandler(w http.ResponseWriter, r *http.Request) {
-	pagePath := "pages_html/welcome.html"
-
+func getPreCheckedTemplate(pagePath string) *template.Template {
 	tmpl, err := template.ParseFiles(pagePath)
 	if err != nil {
-		log.Printf("Error parsing html file in path %s\nerr: %s", pagePath, err)
+		// I don't think having non existent pages is a good thing in the first place -> fatal
+		closePostgresConnection(postgresConnection)
+		log.Fatalf("Error parsing html file in path %s\nerr: %s", pagePath, err)
 	}
+	return tmpl
+}
 
+func welcomePageHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl := getPreCheckedTemplate("pages_html/welcome.html")
 	page := WelcomePage{"Birdwiki", getBirdsArray()}
 
 	tmpl.Execute(w, page)
@@ -60,6 +70,15 @@ func searchRequestHandler(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Error parsing form values: %v\n", err)
 	}
 
-	name := r.FormValue("search-query")
-	println(name)
+	SearchQuery := r.FormValue("search-query")
+
+	tmpl := getPreCheckedTemplate("pages_html/search_results.html")
+	Birds, err := queryBirdArrayByName(SearchQuery)
+	if err != nil {
+		log.Println(err)
+	}
+	title := "q: " + SearchQuery
+	page := SearchResultsPage{title, SearchQuery, Birds}
+
+	tmpl.Execute(w, page)
 }
