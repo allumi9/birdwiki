@@ -34,8 +34,8 @@ func getBird(birdPath string) (Bird, error) {
 func getBirdsArray() []Bird {
 	var birds []Bird
 
-	crow, _ := getBird("data/crow.txt")
-	jackdaw, _ := getBird("data/jackdaw.txt")
+	jackdaw, _ := queryBirdTableByName("jackdaw")
+	crow, _ := queryBirdTableByName("crow")
 
 	birds = append(birds, crow, jackdaw)
 	return birds
