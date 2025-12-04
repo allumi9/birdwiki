@@ -12,6 +12,7 @@ func main() {
 	defer closePostgresConnection(postgresConnection)
 
 	http.HandleFunc("/", welcomePageHandler)
+	http.HandleFunc("/api/search", searchRequestHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 
 }

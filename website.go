@@ -53,3 +53,13 @@ func welcomePageHandler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl.Execute(w, page)
 }
+
+func searchRequestHandler(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Printf("Error parsing form values: %v\n", err)
+	}
+
+	name := r.FormValue("search-query")
+	println(name)
+}
