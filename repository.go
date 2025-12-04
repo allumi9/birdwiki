@@ -15,6 +15,7 @@ var postgresConnection, _ = initPostgresConnection()
 const databaseUrl string = "postgresql://postgres:1234@localhost:5432/postgres"
 
 func closePostgresConnection(connection *pgx.Conn) {
+	log.Println("Closing the connection to postgresql.")
 	connection.Close(context.Background())
 }
 
@@ -24,6 +25,7 @@ func initPostgresConnection() (*pgx.Conn, error) {
 		log.Printf("Error connecting to PSQL: %v\n", err)
 		return nil, err
 	}
+	log.Println("Initialized the connection to postgresql")
 	return connection, nil
 }
 

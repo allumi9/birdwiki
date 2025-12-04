@@ -9,7 +9,7 @@ import (
 func main() {
 	fmt.Println("Starting")
 
-	initPostgresConnection()
+	defer closePostgresConnection(postgresConnection)
 
 	http.HandleFunc("/", welcomePageHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
