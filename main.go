@@ -13,6 +13,7 @@ func main() {
 
 	http.HandleFunc("/", welcomePageHandler)
 	http.HandleFunc("/api/search", searchRequestHandler)
+	http.HandleFunc("/bird-info", birdInfoPageHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 
 }

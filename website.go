@@ -25,6 +25,11 @@ type SearchResultsPage struct {
 	Birds []Bird
 }
 
+type BirdInfoPage struct {
+	Title string
+	Bird  Bird
+}
+
 func getBird(birdPath string) (Bird, error) {
 	fileDescription, err := os.ReadFile(birdPath)
 	if err != nil {
@@ -60,6 +65,30 @@ func getPreCheckedTemplate(pagePath string) *template.Template {
 func welcomePageHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := getPreCheckedTemplate("pages_html/welcome.html")
 	page := WelcomePage{"Birdwiki", getBirdsArray()}
+
+	tmpl.Execute(w, page)
+}
+func returnHomePage(tmpl *template.Template, w http.ResponseWriter) {
+	tmpl.Execute(w, WelcomePage{"Birdwiki", getBirdsArray()})
+}
+
+// TODO: replace home page returns with some like a bird not found page
+func birdInfoPageHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl := getPreCheckedTemplate("pages_html/bird_info.html")
+	nameParam := r.URL.Query().Get("name")
+	if len(clearString(strings.Trim(nameParam, " \n\r"))) == 0 {
+		log.Println("Error: name parameter given to bird info page is empty or invalid")
+		returnHomePage(tmpl, w)
+		return
+	}
+
+	bird, err := queryBirdTableByName(nameParam)
+	if err != nil {
+		log.Println("Error when getting bird from database")
+		returnHomePage(tmpl, w)
+		return
+	}
+	page := BirdInfoPage{nameParam, bird}
 
 	tmpl.Execute(w, page)
 }

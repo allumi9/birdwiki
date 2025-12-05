@@ -75,15 +75,16 @@ func queryBirdTableByName(query string) (Bird, error) {
 		return Bird{}, errors.New("Query string passed was empty or invalid")
 	}
 	clearedString := clearString(trimmedString)
+	searchString := "%" + strings.ToLower(clearedString) + "%"
 
 	var birdName string
 	var birdFile string
-	err := postgresConnection.QueryRow(context.Background(), "SELECT name FROM bird_files WHERE name LIKE $1;", clearedString).Scan(&birdName)
+	err := postgresConnection.QueryRow(context.Background(), "SELECT name FROM bird_files WHERE name LIKE $1;", searchString).Scan(&birdName)
 	if err != nil {
 		log.Printf("Error querying db: %v", err)
 		return Bird{}, errors.New("Error querying the database")
 	}
-	err = postgresConnection.QueryRow(context.Background(), "SELECT file_path FROM bird_files WHERE name LIKE $1;", clearedString).Scan(&birdFile)
+	err = postgresConnection.QueryRow(context.Background(), "SELECT file_path FROM bird_files WHERE name LIKE $1;", searchString).Scan(&birdFile)
 	if err != nil {
 		log.Printf("Error querying db: %v", err)
 		return Bird{}, errors.New("Error querying the database")

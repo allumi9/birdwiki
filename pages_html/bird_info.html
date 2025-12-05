@@ -25,10 +25,11 @@
         .search-form {
             float: left;
         }
-        .search-form button {
-            margin-right: 5px;
+        .search-form-button {
+            margin-left: 5px;
         }
         a {
+            margin-left: 5px;
             color: antiquewhite;
         }
     </style>
@@ -37,21 +38,20 @@
     </head>
     <body>
         <div class="header-nav">
-            <h1 class="page-header-title">Welcome to the Birdwiki</h1>
+            <h1 class="page-header-title">{{.Title}}</h1>
             <form class="search-form" action="/api/search">
                 <input type="text" placeholder="Search" name="search-query" />
                 <button>Submit</button>
             </form>
             <a href="/">Go to homepage</a>
         </div>
-        <br />
         <hr />
-        <h3>Here's what i could find for {{.Query}}:</h3>
-        {{range .Birds}}
+        <h3></h3>
+        <!--{{range .Birds}}
         <div class="bird-info">
-            <h4><a href="/bird-info?name={{.Name}}">{{.Name}}</a></h4>
+            <h4><a href="/bird-information?name={{.Name}}">{{.Name}}</a></h4>
             <p>{{.Description}}</p>
         </div>
-        {{end}}
+        {{end}}-->
     </body>
 </html>
