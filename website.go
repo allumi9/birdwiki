@@ -12,6 +12,7 @@ import (
 type Bird struct {
 	Name        string
 	Description string
+	PicturePath string
 }
 
 type WelcomePage struct {
@@ -30,16 +31,16 @@ type BirdInfoPage struct {
 	Bird  Bird
 }
 
-func getBird(birdPath string) (Bird, error) {
+func getBird(birdPath string, picPath string) (Bird, error) {
 	fileDescription, err := os.ReadFile(birdPath)
 	if err != nil {
 		errorMessage := "Error when reading file" + birdPath
 		log.Printf(errorMessage, err)
-		return Bird{"", ""}, errors.New(errorMessage)
+		return Bird{"", "", ""}, errors.New(errorMessage)
 	}
 
 	slicedDesc := strings.Split(string(fileDescription), "\n")
-	return Bird{slicedDesc[0], slicedDesc[1]}, nil
+	return Bird{slicedDesc[0], slicedDesc[1], picPath}, nil
 }
 
 func getBirdsArray() []Bird {
@@ -88,7 +89,8 @@ func birdInfoPageHandler(w http.ResponseWriter, r *http.Request) {
 		returnHomePage(tmpl, w)
 		return
 	}
-	page := BirdInfoPage{nameParam, bird}
+	log.Println(bird)
+	page := BirdInfoPage{"Birdwiki", bird}
 
 	tmpl.Execute(w, page)
 }

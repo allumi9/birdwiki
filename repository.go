@@ -44,7 +44,7 @@ func queryBirdArrayByName(query string) ([]Bird, error) {
 		return nil, errors.New("Query string passed was empty or invalid")
 	}
 
-	rows, err := postgresConnection.Query(context.Background(), "SELECT file_path FROM bird_files WHERE name LIKE $1;", searchString)
+	rows, err := postgresConnection.Query(context.Background(), "SELECT info_path FROM bird_files WHERE name LIKE $1;", searchString)
 	if err != nil {
 		log.Printf("Error querying db: %v", err)
 		return nil, err
@@ -58,7 +58,7 @@ func queryBirdArrayByName(query string) ([]Bird, error) {
 		if err != nil {
 			return nil, err
 		}
-		var bird, err = getBird(filePath)
+		var bird, err = getBird(filePath, "")
 		if err != nil {
 			return nil, err
 		}
@@ -79,16 +79,22 @@ func queryBirdTableByName(query string) (Bird, error) {
 
 	var birdName string
 	var birdFile string
+	var picPath string
 	err := postgresConnection.QueryRow(context.Background(), "SELECT name FROM bird_files WHERE name LIKE $1;", searchString).Scan(&birdName)
 	if err != nil {
 		log.Printf("Error querying db: %v", err)
 		return Bird{}, errors.New("Error querying the database")
 	}
-	err = postgresConnection.QueryRow(context.Background(), "SELECT file_path FROM bird_files WHERE name LIKE $1;", searchString).Scan(&birdFile)
+	err = postgresConnection.QueryRow(context.Background(), "SELECT info_path FROM bird_files WHERE name LIKE $1;", searchString).Scan(&birdFile)
+	if err != nil {
+		log.Printf("Error querying db: %v", err)
+		return Bird{}, errors.New("Error querying the database")
+	}
+	err = postgresConnection.QueryRow(context.Background(), "SELECT pic_path FROM bird_files WHERE name LIKE $1;", searchString).Scan(&picPath)
 	if err != nil {
 		log.Printf("Error querying db: %v", err)
 		return Bird{}, errors.New("Error querying the database")
 	}
 
-	return getBird(birdFile)
+	return getBird(birdFile, picPath)
 }

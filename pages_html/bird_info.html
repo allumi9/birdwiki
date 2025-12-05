@@ -32,6 +32,13 @@
             margin-left: 5px;
             color: antiquewhite;
         }
+        img {
+            width: 40%;
+            height: 40%;
+            float: left;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
     </style>
     <head>
         <title>{{.Title}}</title>
@@ -46,7 +53,10 @@
             <a href="/">Go to homepage</a>
         </div>
         <hr />
-        <h3></h3>
+        <img src="bird_pictures/{{.Bird.PicturePath}}" />
+        <h3>{{.Bird.Name}}</h3>
+        <p>{{.Bird.Description}}</p>
+
         <!--{{range .Birds}}
         <div class="bird-info">
             <h4><a href="/bird-information?name={{.Name}}">{{.Name}}</a></h4>
