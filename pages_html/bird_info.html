@@ -8,36 +8,71 @@
         .page-header-title {
             /*float: left;*/
         }
+        .bird_main_body {
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            clear: both;
+        }
         .header-nav {
             display: block;
-        }
-        .bird-info {
-            background-color: rgb(30, 30, 30);
-            width: 33%;
-            border: antiquewhite;
-            border-width: 1px;
-            border-radius: 5px;
-            border-style: solid;
-            padding: 5px;
-            float: left;
-            margin-right: 5px;
+            width: 100%;
+            overflow: hidden;
+            clear: both;
         }
         .search-form {
             float: left;
         }
-        .search-form-button {
-            margin-left: 5px;
-        }
-        a {
-            margin-left: 5px;
-            color: antiquewhite;
-        }
-        img {
-            width: 40%;
-            height: 40%;
-            float: left;
+        .search-form button {
             margin-right: 5px;
+            border-radius: 5px;
+            border-style: none;
+            height: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            color: black;
+            background-color: antiquewhite;
+        }
+        .search-form input {
+            margin-right: 5px;
+            border-radius: 5px;
+            border-style: none;
+            height: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            color: black;
+            background-color: antiquewhite;
+        }
+        /*.homepage-link {
+            color: antiquewhite;
+            background-color: rgb(60, 60, 60);
+            font-size: 20px;
+            margin-top: 5px;
+            padding: 0px 10px 5px 10px;
+            border-radius: 15px;
+            float: right;
+            display: block;
+        }*/
+        img {
+            width: 33%;
+            height: 33%;
+            float: left;
+            margin-right: 10px;
             margin-bottom: 5px;
+        }
+        p {
+            margin-top: 10px;
+            float: inline-start;
+            width: 33%;
+        }
+        h2 {
+            margin-top: 10px;
+            margin-bottom: 0px;
+            padding: 0;
+        }
+        hr {
+            padding: 0px;
+            margin: 28px 5px 28px 5px;
         }
     </style>
     <head>
@@ -45,23 +80,23 @@
     </head>
     <body>
         <div class="header-nav">
-            <h1 class="page-header-title">{{.Title}}</h1>
+            <h1
+                class="page-header-title"
+                onclick="window.location.href = '/'"
+                style="cursor: pointer"
+            >
+                {{.Title}}
+            </h1>
             <form class="search-form" action="/api/search">
                 <input type="text" placeholder="Search" name="search-query" />
                 <button>Submit</button>
             </form>
-            <a href="/">Go to homepage</a>
         </div>
         <hr />
-        <img src="bird_pictures/{{.Bird.PicturePath}}" />
-        <h3>{{.Bird.Name}}</h3>
-        <p>{{.Bird.Description}}</p>
-
-        <!--{{range .Birds}}
-        <div class="bird-info">
-            <h4><a href="/bird-information?name={{.Name}}">{{.Name}}</a></h4>
-            <p>{{.Description}}</p>
+        <div class="bird_main_body">
+            <img src="bird_pictures/{{.Bird.PicturePath}}" />
+            <h2>{{.Bird.Name}}</h2>
+            <p>&emsp;{{.Bird.Description}}</p>
         </div>
-        {{end}}-->
     </body>
 </html>

@@ -65,7 +65,6 @@ func queryBirdArrayByName(query string) ([]Bird, error) {
 		birdArray = append(birdArray, bird)
 	}
 
-	// return getBird(birdFile)
 	return birdArray, nil
 }
 

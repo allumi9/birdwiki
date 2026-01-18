@@ -10,6 +10,9 @@
         }
         .header-nav {
             display: block;
+            width: 100%;
+            overflow: hidden;
+            clear: both;
         }
         .bird-info {
             background-color: rgb(30, 30, 30);
@@ -25,8 +28,32 @@
         .search-form {
             float: left;
         }
-        .search-form-button {
-            margin-left: 5px;
+        .search-form button {
+            margin-right: 5px;
+            border-radius: 5px;
+            border-style: none;
+            height: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            color: black;
+            background-color: antiquewhite;
+        }
+        .search-form input {
+            margin-right: 5px;
+            border-radius: 5px;
+            border-style: none;
+            height: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            color: black;
+            background-color: antiquewhite;
+        }
+        a {
+            color: antiquewhite;
+        }
+        hr {
+            padding: 0px;
+            margin: 5px;
         }
     </style>
     <head>
@@ -35,7 +62,7 @@
     <body>
         <div class="header-nav">
             <h1 class="page-header-title">Welcome to the Birdwiki</h1>
-            <form class="search-form" action="/api/search">
+            <form class="search-form" action="/search">
                 <input type="text" placeholder="Search" name="search-query" />
                 <button>Submit</button>
             </form>
@@ -45,7 +72,7 @@
         <h3>Here are some popular birds today:</h3>
         {{range .Birds}}
         <div class="bird-info">
-            <h4>{{.Name}}</h4>
+            <h4><a href="/bird-info?name={{.Name}}">{{.Name}}</a></h4>
             <p>{{.Description}}</p>
         </div>
         {{end}}

@@ -10,26 +10,59 @@
         }
         .header-nav {
             display: block;
+            width: 100%;
+            overflow: hidden;
+            clear: both;
         }
         .bird-info {
             background-color: rgb(30, 30, 30);
-            width: 33%;
+            width: 32%;
             border: antiquewhite;
             border-width: 1px;
             border-radius: 5px;
             border-style: solid;
             padding: 5px;
             float: left;
-            margin-right: 5px;
+            margin: 5px;
         }
         .search-form {
             float: left;
         }
         .search-form button {
             margin-right: 5px;
+            border-radius: 5px;
+            border-style: none;
+            height: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            color: black;
+            background-color: antiquewhite;
         }
+        .search-form input {
+            margin-right: 5px;
+            border-radius: 5px;
+            border-style: none;
+            height: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            color: black;
+            background-color: antiquewhite;
+        }
+        /*.homepage-link {
+            background-color: rgb(60, 60, 60);
+            font-size: 20px;
+            margin-top: 5px;
+            padding: 0px 10px 5px 10px;
+            border-radius: 15px;
+            float: right;
+            display: block;
+        }*/
         a {
             color: antiquewhite;
+        }
+        hr {
+            padding: 0px;
+            margin: 5px;
         }
     </style>
     <head>
@@ -37,16 +70,21 @@
     </head>
     <body>
         <div class="header-nav">
-            <h1 class="page-header-title">Welcome to the Birdwiki</h1>
-            <form class="search-form" action="/api/search">
+            <h1
+                class="page-header-title"
+                onclick="window.location.href = '/'"
+                style="cursor: pointer"
+            >
+                Birdwiki
+            </h1>
+            <form class="search-form" action="/search">
                 <input type="text" placeholder="Search" name="search-query" />
                 <button>Submit</button>
             </form>
-            <a href="/">Go to homepage</a>
         </div>
         <br />
         <hr />
-        <h3>Here's what i could find for {{.Query}}:</h3>
+        <h3 class="query-mention">Here's what i could find for {{.Query}}:</h3>
         {{range .Birds}}
         <div class="bird-info">
             <h4><a href="/bird-info?name={{.Name}}">{{.Name}}</a></h4>
