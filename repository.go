@@ -35,14 +35,25 @@ func clearString(str string) string {
 	return nonAlphanumericRegex.ReplaceAllString(str, "")
 }
 
-func queryBirdArrayByName(query string) ([]Bird, error) {
+func prepareInputQuery(query string) (string, error) {
 	trimmedString := strings.Trim(query, " \n\r")
+	trimmedString = strings.ToLower(trimmedString)
 	clearedString := clearString(trimmedString)
 	searchString := "%" + clearedString + "%"
-	log.Println("searchstring: " + searchString)
+
 	if len(clearedString) == 0 {
-		return nil, errors.New("Query string passed was empty or invalid")
+		return "", errors.New("Query string passed was empty or invalid")
 	}
+
+	return searchString, nil
+}
+
+func queryBirdArrayByName(query string) ([]Bird, error) {
+	var searchString, err = prepareInputQuery(query)
+	if err != nil {
+		return nil, err
+	}
+	log.Println("searchstring: " + searchString)
 
 	rows, err := postgresConnection.Query(context.Background(), "SELECT info_path FROM bird_files WHERE name LIKE $1;", searchString)
 	if err != nil {
