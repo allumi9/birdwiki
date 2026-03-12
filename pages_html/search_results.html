@@ -84,12 +84,15 @@
         </div>
         <br />
         <hr />
-        <h3 class="query-mention">Here's what i could find for {{.Query}}:</h3>
+        <h3 class="query-mention">Results for query: "{{.Query}}":</h3>
         {{range .Birds}}
         <div class="bird-info">
             <h4><a href="/bird-info?name={{.Name}}">{{.Name}}</a></h4>
             <p>{{.Description}}</p>
         </div>
         {{end}}
+        <h3 {{if not .IsEmptyResultSet}}hidden{{end}}>
+            No results found for this query.
+        </h3>
     </body>
 </html>

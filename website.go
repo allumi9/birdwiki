@@ -21,9 +21,10 @@ type WelcomePage struct {
 }
 
 type SearchResultsPage struct {
-	Title string
-	Query string
-	Birds []Bird
+	Title            string
+	Query            string
+	Birds            []Bird
+	IsEmptyResultSet bool
 }
 
 type BirdInfoPage struct {
@@ -109,7 +110,14 @@ func searchRequestHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 	title := "q: " + SearchQuery
-	page := SearchResultsPage{title, SearchQuery, Birds}
+
+	var isEmptyResults = false
+	if len(Birds) == 0 {
+		isEmptyResults = true
+		println("empt resl")
+	}
+
+	page := SearchResultsPage{title, SearchQuery, Birds, isEmptyResults}
 
 	tmpl.Execute(w, page)
 }
